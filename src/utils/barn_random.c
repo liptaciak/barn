@@ -29,19 +29,7 @@ static uint64_t random_number_seed = 0;
 uint64_t
 barn_get_random_seed()
 {
-    /* Get stack pointer */
-    void* p = NULL;
-    uint64_t sp = ((uint64_t)(&p));
-
-    struct timeval tm;
-    gettimeofday(&tm, NULL);
-
-    uint64_t crazy_num = (tm.tv_sec * tan(tm.tv_usec));
-
-    if (crazy_num == 0)
-        return sp + tm.tv_usec + tm.tv_sec * M_2_SQRTPI;
-
-    return crazy_num;
+    return 20;
 }
 
 double

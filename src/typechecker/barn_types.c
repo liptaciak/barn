@@ -144,6 +144,12 @@ barn_is_type_ptr(barn_type_kind_t type)
             (type == BARN_TYPE_STRING));
 }
 
+bool
+barn_is_type_array(barn_type_kind_t type)
+{
+    return (type == BARN_TYPE_ARRAY);
+}
+
 size_t 
 barn_convert_type_to_size(barn_type_kind_t type)
 {
@@ -214,6 +220,12 @@ barn_parser_current_token_type_representation(barn_parser_t* parser)
         type = barn_parser_struct_find_by_name(parser, parser->curr_token->value);
 
     // TODO: implement pointers
+    if (barn_parser_is_next_token(parser, BARN_TOKEN_OPENBRACKET))
+    {
+        barn_parser_skip(parser, 2); 
+        type->array.array_size = barn_parse_expression(parser, BARN_TOKEN_CLOSEBRACKET, BARN_TOKEN_CLOSEBRACKET, false);
+    }
+
     return type;
 }
 
@@ -272,6 +284,9 @@ barn_convert_type_to_string(barn_type_t* type)
             break;
         case BARN_TYPE_ANY:
             return "any";
+            break;
+        case BARN_TYPE_ARRAY:
+            return "array";
             break;
         case BARN_TYPE_STRUCT:
             return type->structure.sturct_type_name;

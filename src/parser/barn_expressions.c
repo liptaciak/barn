@@ -489,6 +489,19 @@ barn_parse_expression_structure_values(barn_parser_t* parser, barn_node_t* expr_
 }
 
 void
+barn_parse_expression_new_array(barn_parser_t* parser, barn_node_t* expr_node, barn_expr_parser_t* expr_parser)
+{
+    expr_node->array_items = barn_create_array(sizeof(barn_node_t*));
+    
+    barn_parser_skip(parser, 1);
+    while (parser->curr_token->kind != BARN_TOKEN_CLOSEBRACKET)
+    {    
+        barn_node_t* item_node = barn_parse_expression(parser, BARN_TOKEN_COMMA, BARN_TOKEN_COMMA, false);
+        barn_append_element_to_array(expr_node->array_items, item_node);
+    }
+}
+
+void
 barn_parse_expression_new_structure(barn_parser_t* parser, barn_node_t* expr_node, barn_expr_parser_t* expr_parser)
 {
     /* Compiler time set to false */
@@ -553,6 +566,12 @@ barn_parse_expression(barn_parser_t* parser, barn_token_kind_t end_kind,
 
     barn_expr_parser_t* expr_parser = barn_create_expr_parser(function_argument_value, expr_node,
                                                               end_kind, end_kind_2);
+    
+    if (parser->curr_token->kind == BARN_TOKEN_OPENBRACKET)
+    {
+       barn_parse_expression_new_array(parser, expr_node, expr_parser);
+        return expr_node;
+    }
 
     /* Handle creating structures */
     if (parser->curr_token->kind == BARN_TOKEN_IDENTIFIER &&

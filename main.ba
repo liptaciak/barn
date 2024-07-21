@@ -1,5 +1,5 @@
-@import "std.ba"
-
 fun main(i32 ok) -> i32 {
+    let x: i32[1] = [5];
+
     return 0
 }

@@ -49,6 +49,7 @@ typedef enum __barn_type_kind_t {
     /* Other */
     BARN_TYPE_STRUCT,
     BARN_TYPE_ANY,
+    BARN_TYPE_ARRAY,
     BARN_TYPE_NONE,
     BARN_TYPE_FORMAT,
     BARN_TYPE_AUTO
@@ -67,11 +68,17 @@ typedef struct __barn_type_t {
     bool is_char;
     bool is_ptr;
     bool is_any;
+    bool is_array;
 
     union {
         barn_array_t* struct_fields;
         const char*   sturct_type_name;
     } structure;
+
+    union {
+        barn_node_t* array_size;
+    } array;
+
 } barn_type_t;
 
 barn_type_t* barn_create_type(barn_type_kind_t type);
@@ -87,6 +94,7 @@ bool barn_is_type_float(barn_type_kind_t type);
 bool barn_is_type_bool(barn_type_kind_t type);
 bool barn_is_type_ptr(barn_type_kind_t type);
 bool barn_is_type_any(barn_type_kind_t type);
+bool barn_is_type_array(barn_type_kind_t type);
 
 bool barn_is_type_number(barn_type_kind_t type);
 

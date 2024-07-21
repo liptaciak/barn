@@ -54,7 +54,9 @@ typedef struct __barn_expression_node_t {
     barn_expression_value_t* rhs;
     
     barn_token_kind_t operator;
-    unsigned long     parents;
+    unsigned long      parents;
+    barn_array_t*  array_items;
+    barn_type_t*     item_type;
 } barn_expression_node_t;
 
 typedef struct __barn_expr_parser_t {

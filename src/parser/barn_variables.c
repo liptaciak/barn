@@ -166,7 +166,6 @@ barn_parser_variable_declaration(barn_parser_t* parser, bool is_constant, bool i
                             parser->curr_token->value);
     }
 
-
     // let/const example_var: type = <expression>
     //                                ^
     if (!barn_parser_is_next_token(parser, BARN_TOKEN_ASN))
